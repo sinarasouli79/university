@@ -116,7 +116,7 @@ class Course(models.Model):
         'Major', through='MajorCourse', verbose_name='رشته')
 
     prerequisite = models.ManyToManyField(
-        'self', blank=True, verbose_name='دروس پیشنیاز')
+        'self', blank=True, verbose_name='دروس پیشنیاز', symmetrical=False)
 
     class Meta:
         verbose_name = 'درس'
