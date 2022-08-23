@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Faculty(models.Model):
-    name = models.CharField(max_length=30, verbose_name='نام')
+    name = models.CharField(max_length=30, verbose_name='نام', unique=True)
     manager = models.CharField(max_length=30, verbose_name='مدیر')
     established_year = models.DateField(verbose_name='سال تاسیس')
 
@@ -26,6 +26,7 @@ class Major(models.Model):
         (DOCTORATE, 'دکترا'),
     ]
     name = models.CharField(max_length=100, verbose_name='نام')
+    code = models.CharField(max_length=10, unique=True, verbose_name='کد درس')
     area_of_interest = models.CharField(
         max_length=50, null=True, blank=True, verbose_name='گرایش')
     grade = models.CharField(
@@ -44,6 +45,8 @@ class Major(models.Model):
 class Student(models.Model):
     first_name = models.CharField(max_length=30, verbose_name='نام')
     last_name = models.CharField(max_length=30, verbose_name='نام‌خانوادگی')
+    national_id = models.CharField(
+        max_length=10, unique=True, verbose_name='کدملی')
     major = models.ForeignKey(
         Major, on_delete=models.PROTECT, verbose_name='رشته')
 
@@ -64,6 +67,7 @@ class MajorInstructor(models.Model):
     class Meta:
         verbose_name = 'مدرس های رشته'
         verbose_name_plural = 'مدرس های رشته‌ها'
+        unique_together = [['major', 'instructor']]
 
     def __str__(self) -> str:
         return f'{self.instructor}-{self.major}'
@@ -72,6 +76,8 @@ class MajorInstructor(models.Model):
 class Instructor(models.Model):
     first_name = models.CharField(max_length=30, verbose_name='نام')
     last_name = models.CharField(max_length=30, verbose_name='نام‌خانوادگی')
+    national_id = models.CharField(
+        max_length=10, unique=True,  verbose_name='کدملی')
     majors = models.ManyToManyField(
         Major, through=MajorInstructor, verbose_name='رشته')
     courses = models.ManyToManyField(
@@ -104,6 +110,7 @@ class InstructorCourse(models.Model):
     class Meta:
         verbose_name = 'درس ارائه شده'
         verbose_name_plural = 'درس های ارائه شده'
+        unique_together = [['course', 'instructor']]
 
     def __str__(self) -> str:
         return f'{self.instructor}-{self.course}'
@@ -111,7 +118,8 @@ class InstructorCourse(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=30, verbose_name='نام')
-    credit = models.SmallIntegerField(verbose_name='تعداد واحد')
+    code = models.CharField(max_length=10, unique=True, verbose_name='کد درس')
+    credit = models.PositiveSmallIntegerField(verbose_name='تعداد واحد')
     major = models.ManyToManyField(
         'Major', through='MajorCourse', verbose_name='رشته')
 
@@ -143,6 +151,7 @@ class MajorCourse(models.Model):
     class Meta:
         verbose_name = 'درس های رشته'
         verbose_name_plural = 'درس های رشته‌ها'
+        unique_together = [['major', 'course']]
 
     def __str__(self) -> str:
         return f'{self.major}-{self.course}'
@@ -178,6 +187,7 @@ class CourseSelection(models.Model):
     class Meta:
         verbose_name = 'انتخاب واحد'
         verbose_name_plural = 'انتخاب واحد'
+        unique_together = [['student', 'section']]
 
     def __str__(self):
         return f'{self.student}-{self.section}'
