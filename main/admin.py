@@ -11,14 +11,14 @@ class FacultyAdmin(admin.ModelAdmin):
 
 
 class MajorAdmin(admin.ModelAdmin):
-    list_display = ['name', 'area_of_interest', 'grade', 'faculty']
+    list_display = ['name', 'area_of_interest', 'code', 'grade', 'faculty']
     list_filter = ['name', 'area_of_interest']
     search_fields = ['name', 'area_of_interest']
     ordering = ['name']
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'major']
+    list_display = ['first_name', 'last_name', 'national_id', 'major']
     list_filter = ['major']
     search_fields = ['first_name', 'last_name']
     ordering = ['first_name', 'last_name', 'major']
@@ -32,7 +32,7 @@ class MajorInstructorAdmin(admin.ModelAdmin):
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'get_majors', 'get_courses']
+    list_display = ['first_name', 'last_name', 'national_id', 'get_majors', 'get_courses']
     list_filter = ['first_name', 'last_name']
     search_fields = ['first_name', 'last_name']  # , 'major', 'course']
     ordering = ['first_name', 'last_name']
@@ -46,7 +46,7 @@ class InstructorCourseAdmin(admin.ModelAdmin):
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'credit', 'get_majors', 'get_prerequisite']
+    list_display = ['name', 'code', 'credit', 'get_majors', 'get_prerequisite']
 
 
 class MajorCourseAdmin(admin.ModelAdmin):
