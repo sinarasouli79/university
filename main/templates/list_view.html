@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% load getattribute %}
+{% block content %}
+
+  <ul>
+    
+    {% for object in object_list %}
+      <li>
+        <a href="">{{object}}</a>
+      </li>
+    {% endfor %}
+    
+  </ul>
+
+{% endblock%}
