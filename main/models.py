@@ -1,6 +1,12 @@
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.contrib import admin
 # Create your models here.
+
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
 
 
 class Faculty(models.Model):
@@ -43,19 +49,30 @@ class Major(models.Model):
 
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=30, verbose_name='نام')
-    last_name = models.CharField(max_length=30, verbose_name='نام‌خانوادگی')
     national_id = models.CharField(
         max_length=10, unique=True, verbose_name='کدملی')
     major = models.ForeignKey(
         Major, on_delete=models.PROTECT, verbose_name='رشته')
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'دانشجو'
         verbose_name_plural = 'دانشجویان'
 
     def __str__(self) -> str:
-        return f'{self.first_name}-{self.last_name}'
+        return f'{self.user.first_name}-{self.user.last_name}'
+
+    @admin.display(ordering='user__first_name')
+    def get_first_name(self):
+        return self.user.first_name
+    get_first_name.short_description = 'نام'
+
+    @admin.display(ordering='user__last_name')
+    def get_last_name(self):
+        return self.user.last_name
+    get_last_name.short_description = 'نام‌خانوادگی'
 
 
 class MajorInstructor(models.Model):
@@ -74,8 +91,8 @@ class MajorInstructor(models.Model):
 
 
 class Instructor(models.Model):
-    first_name = models.CharField(max_length=30, verbose_name='نام')
-    last_name = models.CharField(max_length=30, verbose_name='نام‌خانوادگی')
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     national_id = models.CharField(
         max_length=10, unique=True,  verbose_name='کدملی')
     majors = models.ManyToManyField(
@@ -99,6 +116,16 @@ class Instructor(models.Model):
         return '، '.join([course.name for course in self.courses.all()])
 
     get_courses.short_description = 'درس‌ها'
+
+    @admin.display(ordering='user__first_name')
+    def get_first_name(self):
+        return self.user.first_name
+    get_first_name.short_description = 'نام'
+
+    @admin.display(ordering='user__last_name')
+    def get_last_name(self):
+        return self.user.last_name
+    get_last_name.short_description = 'نام‌خانوادگی'
 
 
 class InstructorCourse(models.Model):
