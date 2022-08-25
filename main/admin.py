@@ -1,13 +1,26 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (Faculty, Major, Student, Instructor, MajorInstructor,
                      MajorCourse, Course, InstructorCourse, Section, CourseSelection)
+from .models import User
 
 
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+ add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("username", "password1", "password2", "email", "first_name", "last_name"),
+            },
+        ),
+    )
 class FacultyAdmin(admin.ModelAdmin):
     list_display = ['name', 'manager', 'established_year']
     list_filter = ['established_year']
     search_fields = ['name', 'manager', 'established_year']
-    ordering = ['name',]
+    ordering = ['name', ]
 
 
 class MajorAdmin(admin.ModelAdmin):
@@ -32,7 +45,8 @@ class MajorInstructorAdmin(admin.ModelAdmin):
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'national_id', 'get_majors', 'get_courses']
+    list_display = ['first_name', 'last_name',
+                    'national_id', 'get_majors', 'get_courses']
     list_filter = ['first_name', 'last_name']
     search_fields = ['first_name', 'last_name']  # , 'major', 'course']
     ordering = ['first_name', 'last_name']
