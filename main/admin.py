@@ -31,10 +31,11 @@ class MajorAdmin(admin.ModelAdmin):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'national_id', 'major']
+    list_display = ['get_first_name', 'get_last_name', 'national_id', 'major']
     list_filter = ['major']
+    list_select_related = ['user']
     search_fields = ['first_name', 'last_name']
-    ordering = ['first_name', 'last_name', 'major']
+    ordering = ['user__first_name', 'user__last_name', 'major']
 
 
 class MajorInstructorAdmin(admin.ModelAdmin):
@@ -45,11 +46,14 @@ class MajorInstructorAdmin(admin.ModelAdmin):
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name',
+    list_display = ['get_first_name', 'get_last_name',
                     'national_id', 'get_majors', 'get_courses']
-    list_filter = ['first_name', 'last_name']
+    
+    list_select_related = ['user']
+
+    list_filter = ['user__first_name', 'user__last_name']
     search_fields = ['first_name', 'last_name']  # , 'major', 'course']
-    ordering = ['first_name', 'last_name']
+    ordering = ['user__first_name', 'user__last_name']
 
 
 class InstructorCourseAdmin(admin.ModelAdmin):
