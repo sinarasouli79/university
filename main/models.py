@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib import admin
 # Create your models here.
 
 
@@ -63,10 +64,12 @@ class Student(models.Model):
     def __str__(self) -> str:
         return f'{self.user.first_name}-{self.user.last_name}'
 
+    @admin.display(ordering='user__first_name')
     def get_first_name(self):
         return self.user.first_name
     get_first_name.short_description = 'نام'
 
+    @admin.display(ordering='user__last_name')
     def get_last_name(self):
         return self.user.last_name
     get_last_name.short_description = 'نام‌خانوادگی'
@@ -114,10 +117,12 @@ class Instructor(models.Model):
 
     get_courses.short_description = 'درس‌ها'
 
+    @admin.display(ordering='user__first_name')
     def get_first_name(self):
         return self.user.first_name
     get_first_name.short_description = 'نام'
 
+    @admin.display(ordering='user__last_name')
     def get_last_name(self):
         return self.user.last_name
     get_last_name.short_description = 'نام‌خانوادگی'
