@@ -1,6 +1,7 @@
-from django.views.generic import ListView
+from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 from .models import (Faculty, Instructor, Student, Course, Major,
-                     MajorInstructor, InstructorCourse, MajorCourse, Section, CourseSelection)
+                     MajorInstructor, InstructorCourse, MajorCourse, Section, CourseSelection, User)
 # Create your views here.
 
 
@@ -47,3 +48,12 @@ class SectionList(ListView):
 class CourseSelectionList(ListView):
     queryset = CourseSelection.objects.all()
     template_name = 'list_view.html'
+
+
+def student_detail(requset, username):
+    student = User.objects.get(username=username)
+    courses = CourseSelection.objects.all().filter(student_id=student.student.id)
+    context = {'student': student, 'courses': courses}
+    return render(requset, 'student-detail.html', context)
+
+
