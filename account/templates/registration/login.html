@@ -26,6 +26,14 @@
   
 
   
+      <div class="error">        
+              {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                      <span>{{error}}</span>
+                  {% endfor %}
+              {% endif %}
+          
+      </div>
   <div class="content">
     <div class="container">
       <div class="row justify-content-center">
@@ -40,15 +48,29 @@
                   <h3>ورود به سایت </h3>
                 </div>
                 <form action="#" method="post">{% csrf_token %}
-                  <div class="form-group first">
-                    <label for="username">نام‌کاربری</label>
-                    {{form.username|add_class:"form-control"}}
+                    <div class="form-group first">
+                      <label for="username">نام‌کاربری</label>
+                      {{form.username|add_class:"form-control"}}
+                      {% if form.username.errors %}
+                          {% for error in form.username.errors %}
+                              <span class="error">
+                                  {{error}}
+                              </span>
+                          {% endfor %}
+                      {% endif %}
 
                   </div>
                   <div class="form-group last mb-4">
+                    
                     <label for="password">گذرواژه</label>
                     {{form.password|add_class:"form-control"}}
-                    
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <span class="error">
+                                {{error}}
+                            </span>
+                        {% endfor %}
+                    {% endif %}
                   </div>
                   
                   <div class="d-flex mb-5 align-items-center dir">

@@ -1,9 +1,14 @@
-body{
-    text-align: right !important;
-    direction: rtl !important;
+body {
+  text-align: right !important;
+  direction: rtl !important;
 }
 
-.dir{
-    text-align: initial;
-    direction: initial;
-  }
+.dir {
+  text-align: initial;
+  direction: initial;
+}
+
+.error {
+  color: red;
+  background-color: #f69f9f;
+}
