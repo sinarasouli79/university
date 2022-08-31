@@ -2,3 +2,8 @@ body{
     text-align: right !important;
     direction: rtl !important;
 }
+
+.dir{
+    text-align: initial;
+    direction: initial;
+  }
