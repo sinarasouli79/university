@@ -57,3 +57,14 @@ def student_detail(requset, username):
     return render(requset, 'student-detail.html', context)
 
 
+class StudentCourseList(ListView):
+    template_name = 'student-courses-list.html'
+
+    def get_queryset(self):
+        global student
+        student = User.objects.get(username=self.kwargs.get('username'))
+        courses = CourseSelection.objects.all().filter(student_id=student.student.id)
+        return courses
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**{'student_name': student.get_full_name})
