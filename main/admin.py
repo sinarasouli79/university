@@ -7,7 +7,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
- add_fieldsets = (
+    add_fieldsets = (
         (
             None,
             {
@@ -16,6 +16,8 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
+
+
 class FacultyAdmin(admin.ModelAdmin):
     list_display = ['name', 'manager', 'established_year']
     list_filter = ['established_year']
@@ -48,11 +50,12 @@ class MajorInstructorAdmin(admin.ModelAdmin):
 class InstructorAdmin(admin.ModelAdmin):
     list_display = ['get_first_name', 'get_last_name',
                     'national_id', 'get_majors', 'get_courses']
-    
+
     list_select_related = ['user']
 
     list_filter = ['user__first_name', 'user__last_name']
-    search_fields = ['first_name', 'last_name']  # , 'major', 'course']
+    # , 'major', 'course']
+    search_fields = ['user__first_name', 'user__last_name']
     ordering = ['user__first_name', 'user__last_name']
 
 

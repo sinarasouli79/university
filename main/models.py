@@ -105,7 +105,7 @@ class Instructor(models.Model):
         verbose_name_plural = 'مدرس‌ها'
 
     def __str__(self) -> str:
-        return f'{self.first_name}-{self.last_name}'
+        return f'{self.user.first_name}-{self.user.last_name}'
 
     def get_majors(self):
         return '، '.join([f'{major.name} ({major.area_of_interest})' for major in self.majors.all()])
