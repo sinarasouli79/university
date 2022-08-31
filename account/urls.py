@@ -39,5 +39,6 @@ urlpatterns = [
 
 
 urlpatterns += [
-    path('', home, name='home'),
+    # path('', home, name='home'),
+    path('home/', Home.as_view(), name='home'),
 ]
