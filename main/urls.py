@@ -7,6 +7,6 @@ urlpatterns = [
     path('instructor/', InstructorList.as_view(), name='instructor-list'),
     path('student/', StudentList.as_view(), name='student-list'),
     path('student/<slug:username>/',
-         StudentCourseList.as_view(), name='student_detail'),
+         StudentCourseList.as_view(), name='student_course_list'),
     path('course/', CourseList.as_view(), name='course-list'),
 ]
