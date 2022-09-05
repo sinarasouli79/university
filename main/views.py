@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import (Faculty, Instructor, Student, Course, Major,
                      MajorInstructor, InstructorCourse, MajorCourse, Section, CourseSelection, User)
 # Create your views here.
@@ -57,7 +58,7 @@ def student_detail(requset, username):
     return render(requset, 'student-detail.html', context)
 
 
-class StudentCourseList(ListView):
+class StudentCourseList(LoginRequiredMixin, ListView):
     template_name = 'student-courses-list.html'
 
     def get_queryset(self):

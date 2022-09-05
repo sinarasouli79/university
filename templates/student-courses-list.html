@@ -1,25 +1,39 @@
-{% extends 'base.html' %}
+{% extends 'base_admin.html' %}
 
-{% block content %}
-    <h1>درس های {{student_name}}</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>نام درس</td>
-                <th>مدرس</td>
-                <th>زمان تشکیل</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for object in object_list %}
-                <tr>
-                    <td>{{ object.section.course.name }}</td>
-                    <td>{{ object.section.instructor }}</td>
-                    <td>{{ object.section.class_time }}</td>
-
-                </tr>    
-            {% endfor %}
-            
-        </tbody>
-    </table>
+{% block main %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>کد</th>
+                <th>نام درس</th>
+                <th>تعداد واحد</th>
+                <th>رشته</th>
+                <th>مدرس</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              {% for object in object_list %}
+              <tr>
+                <td>{{object.section.course.code}}</td>
+                <td>{{object.section.course.name}}</td>
+                <td>{{object.section.course.credit}}</td>
+                <td>{{object.section.course.major}}</td>
+                <td>{{object.section.instructor}}</td>
+                
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
 {% endblock%}
