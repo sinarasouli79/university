@@ -1,3 +1,3 @@
 - [ ] semaster model
-- [ ] instructor instructor admin-panel 
+- [ ] instructor admin-panel 
  
