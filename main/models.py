@@ -147,6 +147,8 @@ class Course(models.Model):
     name = models.CharField(max_length=30, verbose_name='نام')
     code = models.CharField(max_length=10, unique=True, verbose_name='کد درس')
     credit = models.PositiveSmallIntegerField(verbose_name='تعداد واحد')
+    semestres = models.ManyToManyField('Semester')
+
     major = models.ManyToManyField(
         'Major', through='MajorCourse', verbose_name='رشته')
 
@@ -218,3 +220,24 @@ class CourseSelection(models.Model):
 
     def __str__(self):
         return f'{self.student}-{self.section}'
+
+
+class Semester(models.Model):
+
+    FALL = '1'
+    WINTER = '2'
+    SUMMER = '3'
+
+    SEMESTER_CHOISES = [
+        (FALL, 'مهر'),
+        (WINTER, 'بهمن'),
+        (SUMMER, 'تابستان'),
+    ]
+
+    academic_year = models.CharField(max_length=4, verbose_name='سال تحصیلی')
+    semester = models.CharField(
+        max_length=1, choices=SEMESTER_CHOISES, verbose_name='نیم‌سال ')
+
+    class Meta:
+        verbose_name = 'نیم‌سال تحصیلی'
+        verbose_name_plural = 'نیم‌سال های تحصیلی'
