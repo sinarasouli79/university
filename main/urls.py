@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import FacultyList, InstructorList, StudentList, CourseList, student_detail, StudentCourseList
+from .views import FacultyList, InstructorList, StudentList, CourseList, student_detail, StudentCourseList, CourseSelectionCouseList
 app_name = 'main'
 
 urlpatterns = [
@@ -9,4 +9,6 @@ urlpatterns = [
     path('student/<slug:username>/',
          StudentCourseList.as_view(), name='student_course_list'),
     path('course/', CourseList.as_view(), name='course-list'),
+    path('courseselection/courselist/', CourseSelectionCouseList.as_view(),
+         name='course-selection-courselist')
 ]

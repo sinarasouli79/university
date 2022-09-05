@@ -69,3 +69,7 @@ class StudentCourseList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(**{'student_name': student.get_full_name})
+
+class CourseSelectionCouseList(LoginRequiredMixin, ListView):
+    model = Section
+    template_name = 'course-selection-couseList.html'
