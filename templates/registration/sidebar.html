@@ -46,7 +46,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{% url 'main:student_course_list' user.get_username %}" class="nav-link">
+                    <a href="" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>مشاهده وضعیت ترم جاری</p>
                     </a>
@@ -63,7 +63,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
+                <a href="{% url 'main:student_course_list' user.get_username %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ترم جاری</p>
                 </a>
