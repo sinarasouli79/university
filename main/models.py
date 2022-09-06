@@ -187,6 +187,7 @@ class MajorCourse(models.Model):
 
 
 class Section(models.Model):
+    code = models.CharField(max_length=10, unique=True, verbose_name='کد درس')
     class_time = models.CharField(max_length=100, verbose_name='زمان')
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, verbose_name='درس')
