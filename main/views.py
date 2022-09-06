@@ -3,6 +3,10 @@ from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import (Faculty, Instructor, Student, Course, Major,
                      MajorInstructor, InstructorCourse, MajorCourse, Section, CourseSelection, User)
+
+from django.contrib.auth.decorators import login_required
+from .forms import StudentCourseSelection
+
 # Create your views here.
 
 
@@ -47,9 +51,9 @@ class SectionList(ListView):
 
 
 class CourseSelectionList(ListView):
-    queryset = CourseSelection.objects.all()
+    queryset = Section.objects.all()
     template_name = 'list_view.html'
-
+    
 
 def student_detail(requset, username):
     student = User.objects.get(username=username)
@@ -73,3 +77,23 @@ class StudentCourseList(LoginRequiredMixin, ListView):
 class CourseSelectionCouseList(LoginRequiredMixin, ListView):
     model = Section
     template_name = 'course-selection-couseList.html'
+
+
+@login_required
+def student_course_selection(request, *args, **kwargs):
+    form = StudentCourseSelection()
+    if request.method == 'POST':
+        form = StudentCourseSelection(request.POST)
+        if form.is_valid():
+            section_code_input = form.cleaned_data.get('section_code')
+            print(section_code_input)
+            course_code_input = form.cleaned_data.get('course_code')
+            section = Section.objects.filter(
+                course__code=course_code_input).filter(section_code_input).get()
+            print(section)
+            # student = request.user.student
+            # print(student, section_code_input)
+            # CourseSelection.objects.create(section=section, student=student)
+            # form = StudentCourseSelection()
+
+    return render(request, 'raw_form.html', {'form': form})
