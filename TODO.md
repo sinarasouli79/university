@@ -1,3 +1,14 @@
-- [ ] semaster model
-- [ ] instructor instructor admin-panel 
- 
+- [x] semester model
+- [x] foreign key value in the filter : use __ double underscore
+- [x] foreign key value in the template use .
+- [x] forein key value instead of id in the CourseSelectionCouseList template
+- [x] download azad university course list from godarz jafari github
+- [x] and queryset using filter
+- [ ] semester model validator
+- [ ] instructor instructor admin-panel
+- [ ] validation on student course selection form
+- [ ] student_course_selection url naming
+- [ ] rename student_course_selection form and template file
+- [x] use base template in the  student_course_selection view
+- [ ] add bootstrap class to the raw_form.html form element
+- [ ] verbose name for form's  fields
