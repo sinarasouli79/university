@@ -5,7 +5,7 @@ from .models import (Faculty, Instructor, Student, Course, Major,
                      MajorInstructor, InstructorCourse, MajorCourse, Section, CourseSelection, User)
 
 from django.contrib.auth.decorators import login_required
-from .forms import StudentCourseSelection
+from .forms import CourseSelectionForm
 
 # Create your views here.
 
@@ -53,7 +53,7 @@ class SectionList(ListView):
 class CourseSelectionList(ListView):
     queryset = Section.objects.all()
     template_name = 'list_view.html'
-    
+
 
 def student_detail(requset, username):
     student = User.objects.get(username=username)
@@ -74,16 +74,17 @@ class StudentCourseList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(**{'student_name': student.get_full_name})
 
+
 class CourseSelectionCouseList(LoginRequiredMixin, ListView):
     model = Section
     template_name = 'course-selection-couseList.html'
 
 
 @login_required
-def student_course_selection(request, *args, **kwargs):
-    form = StudentCourseSelection()
+def course_selection(request, *args, **kwargs):
+    form = CourseSelectionForm()
     if request.method == 'POST':
-        form = StudentCourseSelection(request.POST)
+        form = CourseSelectionForm(request.POST)
         if form.is_valid():
             section_code_input = form.cleaned_data.get('section_code')
             print(section_code_input)
@@ -96,4 +97,4 @@ def student_course_selection(request, *args, **kwargs):
             # CourseSelection.objects.create(section=section, student=student)
             # form = StudentCourseSelection()
 
-    return render(request, 'raw_form.html', {'form': form})
+    return render(request, 'course_selection_form.html', {'form': form})
