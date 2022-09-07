@@ -1,7 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import (Faculty, Instructor, Student, Course, Major,
                      MajorInstructor, InstructorCourse, MajorCourse, Section, CourseSelection, User)
+
+from django.contrib.auth.decorators import login_required
+from .forms import CourseSelectionForm
+
 # Create your views here.
 
 
@@ -46,7 +51,7 @@ class SectionList(ListView):
 
 
 class CourseSelectionList(ListView):
-    queryset = CourseSelection.objects.all()
+    queryset = Section.objects.all()
     template_name = 'list_view.html'
 
 
@@ -57,7 +62,7 @@ def student_detail(requset, username):
     return render(requset, 'student-detail.html', context)
 
 
-class StudentCourseList(ListView):
+class StudentCourseList(LoginRequiredMixin, ListView):
     template_name = 'student-courses-list.html'
 
     def get_queryset(self):
@@ -68,3 +73,28 @@ class StudentCourseList(ListView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(**{'student_name': student.get_full_name})
+
+
+class CourseSelectionCouseList(LoginRequiredMixin, ListView):
+    model = Section
+    template_name = 'course-selection-couseList.html'
+
+
+@login_required
+def course_selection(request, *args, **kwargs):
+    form = CourseSelectionForm()
+    if request.method == 'POST':
+        form = CourseSelectionForm(request.POST)
+        if form.is_valid():
+            section_code_input = form.cleaned_data.get('section_code')
+            print(section_code_input)
+            course_code_input = form.cleaned_data.get('course_code')
+            section = Section.objects.filter(
+                course__code=course_code_input).filter(section_code_input).get()
+            print(section)
+            # student = request.user.student
+            # print(student, section_code_input)
+            # CourseSelection.objects.create(section=section, student=student)
+            # form = StudentCourseSelection()
+
+    return render(request, 'course_selection_form.html', {'form': form})

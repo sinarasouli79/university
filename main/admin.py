@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (Faculty, Major, Student, Instructor, MajorInstructor,
-                     MajorCourse, Course, InstructorCourse, Section, CourseSelection)
+                     MajorCourse, Course, InstructorCourse, Section, CourseSelection, Semester)
 from .models import User
 
 
@@ -91,6 +91,13 @@ class CourseSelectionAdmin(admin.ModelAdmin):
     ordering = ['section', 'student']
 
 
+class SemesterAdmin(admin.ModelAdmin):
+    list_display = ['academic_year', 'semester']
+    list_filter = ['academic_year', 'semester']
+    search_fields = ['academic_year', 'semester']
+    ordering = ['academic_year', 'semester']
+
+
 # Register your models here.
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(Major, MajorAdmin)
@@ -102,3 +109,4 @@ admin.site.register(MajorCourse, MajorCourseAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(CourseSelection, CourseSelectionAdmin)
+admin.site.register(Semester, SemesterAdmin)
